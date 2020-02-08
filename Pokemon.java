@@ -7,9 +7,10 @@
         private int Level;
         private int Exp;
         private int levelUpExp;
-        private int leastHP = 10;
-        private int leastATK = 5;
-        private int leastDEF = 3;
+        private int levelStack = 0;
+        private int BaseHP = 10;
+        private int BaseATK = 5;
+        private int BaseDEF = 3;
     
         public Pokemon(String name)
         {
@@ -17,12 +18,12 @@
             Level = 1;
             Exp = 0;
             levelUpExp = 5;
-            HP = (int)(Math.random() * 12) + leastHP;
-            ATK = (int)Math.random() + leastATK;
-            DEF = (int)(Math.random() * 10) + leastDEF;
+            HP = (int)(2*BaseHP)*(Level/100)+Level+10;
+            ATK = (int)(2*BaseATK)*(Level/5);
+            DEF = (int)(2*BaseDEF)*(Level/5);
         }
     
-        public String getStats()
+        public String ShowStats()
         {
             return "----------Pokemon Stats----------\n" +
                     "Name : " + Name +
@@ -38,8 +39,13 @@
         {
             Exp += rexp;
             if (Exp >= levelUpExp) {
+                levelStack = Exp / levelUpExp;
                 Exp = Exp % levelUpExp;
-                levelUp();
+                while(levelStack != 0){
+                    levelUp();
+                    levelStack--;
+                }
+                 
             }
         }
     
@@ -51,13 +57,7 @@
             System.out.println("Level up!");
         }
     
-        public void statusUp()
-        {
-            HP += 2;
-            ATK++;
-            DEF++;
-        }
     }
-}
+
     
     
